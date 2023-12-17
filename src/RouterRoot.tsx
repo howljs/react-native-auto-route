@@ -1,5 +1,6 @@
 import {
   NavigationContainer,
+  type LinkingOptions,
   type NavigationState,
   type Theme,
 } from '@react-navigation/native';
@@ -16,7 +17,10 @@ export interface RouterRootProps {
   fallback?: ReactNode;
   onReady?: () => void;
   onStateChange?: (state: NavigationState | undefined) => void;
-  prefixes?: string[];
+  linking?: Omit<
+    LinkingOptions<any>,
+    'config' | 'getInitialURL' | 'getStateFromPath' | 'getPathFromState'
+  >;
 }
 
 const RouterRoot = ({
@@ -24,7 +28,7 @@ const RouterRoot = ({
   fallback,
   onReady,
   onStateChange,
-  prefixes = [],
+  linking: customLinking,
 }: RouterRootProps) => {
   const router = useMemo(() => {
     const routes = getRoutes(appContext);
@@ -46,7 +50,9 @@ const RouterRoot = ({
       ref={navigationRef}
       theme={theme}
       fallback={fallback}
-      linking={{ ...router.linking, prefixes: prefixes }}
+      linking={
+        customLinking ? { ...router.linking, ...customLinking } : undefined
+      }
     >
       <Router />
     </NavigationContainer>
