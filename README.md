@@ -65,7 +65,7 @@ module.exports = {
   ],
   plugins: [
     ...
-    'react-native-auto-route/plugin',
+    ['react-native-auto-route/plugin'],
   ],
 };
 ```
