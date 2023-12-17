@@ -55,6 +55,8 @@ public class MainActivity extends ReactActivity {
 ```
 
 ### Add Auto Route plugin
+
+Add `react-native-auto-route/plugin` plugin to your `babel.config.js`
     
 ```js
 module.exports = {
@@ -66,6 +68,28 @@ module.exports = {
     'react-native-auto-route/plugin',
   ],
 };
+```
+
+### Enable require.context
+
+Add `unstable_allowRequireContext` transformer option to your `metro.config.js`
+    
+```js
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+
+/**
+ * Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = {
+  transformer: {
+    unstable_allowRequireContext: true,
+  },
+};
+
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);
 ```
 
 ### Clear Metro bundler cache (recommended)
@@ -84,7 +108,7 @@ import RouterRoot from 'react-native-auto-route';
 
 ## Documentation
 
-> Updating...
+> In the process of updating, you can refer to the instructions from [Expo Router](https://docs.expo.dev/router/create-pages/)
 
 ### Create pages
 
