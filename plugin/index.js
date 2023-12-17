@@ -7,13 +7,13 @@ function getRouterRoot(projectRoot, appDirectory) {
   }
   const contextPath = resolveFrom.silent(
     projectRoot,
-    'react-native-auto-route/_context'
+    'react-native-auto-route/_context.tsx'
   );
   const routerRoot = path.relative(
     path.dirname(contextPath),
     path.join(projectRoot, appDirectory)
   );
-  return `${routerRoot}`;
+  return routerRoot;
 }
 
 module.exports = function autoRoutesPlugin({ types: t }) {
