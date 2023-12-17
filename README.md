@@ -1,22 +1,113 @@
 # react-native-auto-route
 
-Generated router automatically
+React Native Auto Route is a file-based router for React Native CLI. Built on top of [Expo Router](https://docs.expo.dev/router/introduction/) and [React Navigation](https://reactnavigation.org/)
 
 ## Installation
 
 ```sh
-npm install react-native-auto-route
+yarn add react-native-auto-route
+```
+
+### Peer Dependencies
+
+```sh
+yarn add react-native-screens react-native-safe-area-context
+```
+
+If you're on a Mac and developing for iOS, you need to install the pods (via Cocoapods) to complete the linking.
+  
+```sh
+npx pod-install ios
+```
+`react-native-screens` package requires one additional configuration step to properly work on Android devices. Edit `MainActivity.kt` or `MainActivity.java` file which is located under `android/app/src/main/java/<your package name>/`.
+
+Add the highlighted code to the body of MainActivity class:
+
+- with Kotlin:
+
+```kt
+import android.os.Bundle;
+
+class MainActivity: ReactActivity() {
+  // ...
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(null)
+  }
+  // ...
+}
+```
+
+Or
+
+- with Java:
+
+```java
+import android.os.Bundle;
+
+public class MainActivity extends ReactActivity {
+  // ...
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(null);
+  }
+  // ...
+}
+```
+
+### Add Auto Route plugin
+    
+```js
+module.exports = {
+  presets: [
+    ... // don't add it here :)
+  ],
+  plugins: [
+    ...
+    'react-native-auto-route/plugin',
+  ],
+};
+```
+
+### Clear Metro bundler cache (recommended)
+
+```sh
+yarn start --reset-cache
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'react-native-auto-route';
+import RouterRoot from 'react-native-auto-route';
 
-// ...
-
-const result = await multiply(3, 7);
+<RouterRoot />
 ```
+
+## Documentation
+
+> Updating...
+
+### Create pages
+
+When a file is created in the app directory, it automatically becomes a route in the app. For example, the following files will create the following routes:
+
+- app/index.tsx matches /
+- app/home.tsx matches /home
+- app/settings/index.tsx matches /settings
+- app/[user].tsx matches dynamic paths like /userId1 or /userId2
+
+For example, create the app directory in root project and then create a file index.tsx inside it. Then, add the following snippet:
+
+```tsx
+import React from 'react';
+import { Text } from 'react-native';
+
+const Home = () => {
+  return <Text>Home</Text>;
+};
+
+export default Home;
+```
+
 
 ## Contributing
 

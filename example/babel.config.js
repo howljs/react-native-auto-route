@@ -13,5 +13,7 @@ module.exports = {
         },
       },
     ],
+    'react-native-reanimated/plugin',
+    [path.resolve('../plugin'), { appDirectory: 'app' }],
   ],
 };

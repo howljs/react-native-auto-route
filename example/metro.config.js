@@ -33,6 +33,7 @@ const config = {
   },
 
   transformer: {
+    unstable_allowRequireContext: true,
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
