@@ -5,11 +5,6 @@ const PageNotFound: FC = ({}) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Page Not Found</Text>
-      <Text style={styles.subtitle}>
-        Start by creating a file in the{' '}
-        <Text style={styles.dirText}>{process.env.APP_DIRECTORY || 'app'}</Text>{' '}
-        directory.
-      </Text>
     </SafeAreaView>
   );
 };
