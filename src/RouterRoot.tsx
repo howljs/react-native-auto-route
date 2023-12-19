@@ -5,6 +5,7 @@ import {
   type NavigationContainerRef,
   type NavigationState,
   type Theme,
+  type InitialState,
 } from '@react-navigation/native';
 import React, { forwardRef, useMemo, type ReactNode } from 'react';
 import { appContext } from '../_context';
@@ -26,6 +27,7 @@ export interface RouterRootProps {
     LinkingOptions<any>,
     'config' | 'getInitialURL' | 'getStateFromPath' | 'getPathFromState'
   >;
+  initialState?: InitialState;
 }
 
 const navigationRef = createNavigationContainerRef();
@@ -37,6 +39,7 @@ const RouterRoot = (
     onReady,
     onStateChange,
     linking: customLinking,
+    initialState,
   }: RouterRootProps,
   ref: React.Ref<NavigationContainerRef<ReactNavigation.RootParamList>>
 ) => {
@@ -63,6 +66,7 @@ const RouterRoot = (
 
   return (
     <NavigationContainer
+      initialState={initialState}
       onStateChange={onStateChange ? _onStateChange : undefined}
       onReady={onReady}
       ref={ref || navigationRef}
