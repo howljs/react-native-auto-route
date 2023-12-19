@@ -1,11 +1,19 @@
 import React, { useContext, type ReactNode } from 'react';
 
+import type { ParamListBase, RouteProp } from '@react-navigation/native';
 import { getContextKey } from './utils/matchers';
 
 export type DynamicConvention = { name: string; deep: boolean };
 
 export type LoadedRoute = {
   default?: React.ComponentType<any>;
+  screenOptions?:
+    | RouteProp<ParamListBase, string>
+    | ((props: {
+        route: any;
+        navigation: any;
+      }) => RouteProp<ParamListBase, string>);
+  initialParams?: Record<string, any>;
 };
 
 export type RouteNode = {

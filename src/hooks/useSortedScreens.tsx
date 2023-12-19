@@ -129,9 +129,18 @@ function routeToScreen(
           customOptions = options;
         }
 
-        return { ...defaultOptions, ...customOptions };
+        let optionsFromRoute = {};
+        const screenOptions = route.loadRoute()?.screenOptions;
+        if (typeof screenOptions === 'function') {
+          optionsFromRoute = screenOptions(args);
+        } else if (screenOptions) {
+          optionsFromRoute = screenOptions;
+        }
+
+        return { ...defaultOptions, ...customOptions, ...optionsFromRoute };
       }}
       getComponent={() => buildRouter(route)}
+      initialParams={route.loadRoute()?.initialParams}
     />
   );
 }
