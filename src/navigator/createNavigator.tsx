@@ -87,7 +87,7 @@ const CustomNavigator = <
   });
 };
 
-export const createNavigatorFactory = <
+export const createNavigator = <
   State extends NavigationState,
   ScreenOptions extends {},
   EventMap extends EventMapBase,

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useRouteNode, type DynamicConvention, type RouteNode } from '../Route';
-import type { ScreenProps } from '../navigator/createNavigatorFactory';
+import type { ScreenProps } from '../navigator/createNavigator';
 import { Screen } from '../navigator/primitives';
 import { buildRouter } from '../routeBuilder';
 import { matchGroupName } from '../utils/matchers';

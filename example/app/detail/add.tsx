@@ -11,6 +11,8 @@ const Add = () => {
 
 export default Add;
 
+export const screenOptions = { headerTitle: 'Add' };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

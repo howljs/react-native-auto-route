@@ -9,7 +9,10 @@ const RootLayout = () => {
         name="(modal)"
         options={{ presentation: 'modal', headerShown: false }}
       />
-      <Stack.Screen name="[...error]" options={{ headerTitle: '404 Error' }} />
+      <Stack.Screen
+        name="[...error]"
+        options={{ headerTitle: 'Page not found' }}
+      />
     </Stack>
   );
 };

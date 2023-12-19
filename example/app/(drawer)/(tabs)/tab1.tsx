@@ -7,15 +7,19 @@ const Tab1 = () => {
 
   return (
     <View>
-      <Button title="Go Tab 4" onPress={() => router.push('/tab4')} />
-      <Button title="Go to Detail" onPress={() => router.push('detail/22')} />
+      <Button title="Go Tab 4" onPress={() => router.navigate('tab4')} />
+      <Button
+        title="Go to Detail"
+        onPress={() => router.navigate('detail/22')}
+      />
       <Button
         title="Go to Edit Detail"
-        onPress={() => router.push('detail/22/edit')}
+        onPress={() => router.navigate('detail/22/edit')}
       />
-      <Button title="Go to Add" onPress={() => router.push('detail/add')} />
-      <Button title="Open Modal" onPress={() => router.push('modal_1')} />
-      <Button title="Not found" onPress={() => router.push('abc123')} />
+      <Button title="Go to Add" onPress={() => router.navigate('detail/add')} />
+      <Button title="Open Modal" onPress={() => router.navigate('modal_1')} />
+      <Button title="Open Modal 2" onPress={() => router.navigate('modal_2')} />
+      <Button title="Not found" onPress={() => router.navigate('abc123')} />
     </View>
   );
 };

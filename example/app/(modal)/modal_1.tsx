@@ -9,4 +9,6 @@ const Modal1 = () => {
   );
 };
 
+export const screenOptions = { headerTitle: 'Modal 1' };
+
 export default Modal1;

@@ -9,10 +9,12 @@ const Edit = () => {
       <Text>Edit</Text>
       <Button
         title="Replace with detail screen"
-        onPress={() => router.replace('detail/22')}
+        onPress={() => router.navigate('detail/22')}
       />
     </View>
   );
 };
+
+export const screenOptions = { headerTitle: 'Edit' };
 
 export default Edit;

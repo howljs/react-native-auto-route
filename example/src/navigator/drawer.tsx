@@ -7,11 +7,11 @@ import type {
   DrawerNavigationState,
   ParamListBase,
 } from '@react-navigation/native';
-import { createNavigatorFactory } from 'react-native-auto-route';
+import { createNavigator } from 'react-native-auto-route';
 
 const DrawerNavigator = createDrawerNavigator().Navigator;
 
-export const Drawer = createNavigatorFactory<
+export const Drawer = createNavigator<
   DrawerNavigationState<ParamListBase>,
   DrawerNavigationOptions,
   DrawerNavigationEventMap,

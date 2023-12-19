@@ -8,11 +8,11 @@ import {
   type NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
 
-import { createNavigatorFactory } from './createNavigatorFactory';
+import { createNavigator } from './createNavigator';
 
 const StackNavigator = createNativeStackNavigator().Navigator;
 
-export const Stack = createNavigatorFactory<
+export const Stack = createNavigator<
   StackNavigationState<ParamListBase>,
   NativeStackNavigationOptions,
   NativeStackNavigationEventMap,

@@ -8,11 +8,11 @@ import {
   type BottomTabNavigationEventMap,
   type BottomTabNavigationOptions,
 } from '@react-navigation/bottom-tabs';
-import { createNavigatorFactory } from './createNavigatorFactory';
+import { createNavigator } from './createNavigator';
 
 const BottomTabNavigator = createBottomTabNavigator().Navigator;
 
-export const Tabs = createNavigatorFactory<
+export const Tabs = createNavigator<
   TabNavigationState<ParamListBase>,
   BottomTabNavigationOptions,
   BottomTabNavigationEventMap,
