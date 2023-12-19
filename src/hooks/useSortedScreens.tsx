@@ -137,7 +137,11 @@ function routeToScreen(
           optionsFromRoute = screenOptions;
         }
 
-        return { ...defaultOptions, ...customOptions, ...optionsFromRoute };
+        return {
+          ...defaultOptions,
+          ...customOptions,
+          ...optionsFromRoute,
+        };
       }}
       getComponent={() => buildRouter(route)}
       initialParams={route.loadRoute()?.initialParams}

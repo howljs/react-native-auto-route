@@ -11,3 +11,4 @@ export { default as Tabs } from './navigator/Tabs';
 export { createNavigatorFactory } from './navigator/createNavigatorFactory';
 
 export * from '@react-navigation/core';
+export * from '@react-navigation/elements';
