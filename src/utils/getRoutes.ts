@@ -29,6 +29,7 @@ type TreeNode = {
 
 type Options = {
   ignore?: RegExp[];
+  DefaultLayout?: React.ComponentType<any>;
 };
 
 /** Convert a flat map of file nodes into a nested tree of files. */
@@ -312,9 +313,12 @@ function hasCustomRootLayoutNode(routes: RouteNode[]) {
   return false;
 }
 
-function treeNodesToRootRoute(treeNode: TreeNode): RouteNode | null {
+function treeNodesToRootRoute(
+  treeNode: TreeNode,
+  DefaultLayout?: React.ComponentType<any>
+): RouteNode | null {
   const routes = treeNodeToRouteNode(treeNode);
-  return withOptionalRootLayout(routes);
+  return withOptionalRootLayout(routes, DefaultLayout);
 }
 
 function processKeys(files: string[], options: Options): string[] {
@@ -380,7 +384,7 @@ export function getExactRoutes(
   options?: Options
 ): RouteNode | null {
   const treeNodes = contextModuleToTree(contextModule, options);
-  const route = treeNodesToRootRoute(treeNodes);
+  const route = treeNodesToRootRoute(treeNodes, options?.DefaultLayout);
   return route || null;
 }
 
@@ -439,7 +443,10 @@ export function getUserDefinedDeepDynamicRoute(
   return null;
 }
 
-function withOptionalRootLayout(routes: RouteNode[] | null): RouteNode | null {
+function withOptionalRootLayout(
+  routes: RouteNode[] | null,
+  DefaultLayout?: React.ComponentType<any>
+): RouteNode | null {
   if (!routes?.length) {
     return null;
   }
@@ -450,9 +457,10 @@ function withOptionalRootLayout(routes: RouteNode[] | null): RouteNode | null {
 
   return {
     loadRoute: () => ({
-      default: (
-        require('../navigator/Stack') as typeof import('../navigator/Stack')
-      ).default,
+      default:
+        DefaultLayout ||
+        (require('../navigator/Stack') as typeof import('../navigator/Stack'))
+          .default,
     }),
     contextKey: './_layout.tsx',
     route: '',

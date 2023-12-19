@@ -28,6 +28,7 @@ export interface RouterRootProps {
     'config' | 'getInitialURL' | 'getStateFromPath' | 'getPathFromState'
   >;
   initialState?: InitialState;
+  DefaultLayout?: React.ComponentType<any>;
 }
 
 const navigationRef = createNavigationContainerRef();
@@ -38,26 +39,31 @@ const RouterRoot = (
     fallback,
     onReady,
     onStateChange,
-    linking: customLinking,
+    linking: customLinking = { prefixes: [] },
     initialState,
+    DefaultLayout,
   }: RouterRootProps,
   ref: React.Ref<NavigationContainerRef<ReactNavigation.RootParamList>>
 ) => {
   const router = useMemo(() => {
-    const routes = getRoutes(appContext);
+    const routes = getRoutes(appContext, { DefaultLayout });
     if (!routes) {
-      return { Router: PageNotFound };
+      return;
     }
 
     const linking = getLinkingConfig(routes);
     const Router = buildRouter(routes);
     return { Router, linking };
-  }, []);
+  }, [DefaultLayout]);
+
+  if (!router) {
+    return <PageNotFound />;
+  }
 
   const Router = router.Router;
 
   const _onStateChange = (state?: NavigationState) => {
-    if (state && router.linking?.config) {
+    if (state && router.linking.config) {
       onStateChange?.(getRouteInfo(state, router.linking.config), state);
     } else {
       onStateChange?.(undefined, state);
@@ -72,9 +78,7 @@ const RouterRoot = (
       ref={ref || navigationRef}
       theme={theme}
       fallback={fallback}
-      linking={
-        customLinking ? { ...router.linking, ...customLinking } : undefined
-      }
+      linking={{ ...router.linking, ...customLinking }}
     >
       <Router />
     </NavigationContainer>
