@@ -1,7 +1,9 @@
 import { NavigationRouteContext } from '@react-navigation/native';
 import { useContext } from 'react';
 
-const useParams = <T extends Record<string, any> = {}>(): Readonly<T> => {
+const useParams = <
+  T extends Record<string, any> = Record<string, any>
+>(): Readonly<T> => {
   const route = useContext(NavigationRouteContext);
   if (route === undefined) {
     throw new Error(

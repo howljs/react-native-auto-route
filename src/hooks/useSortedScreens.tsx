@@ -108,7 +108,7 @@ export function createGetIdForRoute(
 
 function routeToScreen(
   route: RouteNode,
-  { options, ...props }: ScreenProps = {}
+  { options, initialParams, ...props }: ScreenProps = {}
 ) {
   return (
     <Screen
@@ -144,7 +144,7 @@ function routeToScreen(
         };
       }}
       getComponent={() => buildRouter(route)}
-      initialParams={route.loadRoute()?.initialParams}
+      initialParams={route.loadRoute()?.initialParams || initialParams}
     />
   );
 }

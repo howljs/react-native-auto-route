@@ -23,10 +23,12 @@ export type To<
       ? {
           screen: Extract<RouteName, string>;
           params?: ParamList[RouteName];
+          merge?: boolean;
         }
       : {
           screen: Extract<RouteName, string>;
           params: ParamList[RouteName];
+          merge?: boolean;
         });
 
 export type Router<
@@ -113,11 +115,16 @@ const useRouter = <
     if (!navigationContainer || !linking.options) {
       throw Error("Couldn't find a navigation object");
     }
+    let merge = false;
+    if (typeof to !== 'string') {
+      merge = to.merge ?? false;
+    }
     const path = resolveTo(to);
     linkTo(path, {
       navigation: navigationContainer,
       linkingOptions: linking.options,
       type: 'NAVIGATE',
+      merge,
     });
   };
 
@@ -228,6 +235,7 @@ const resolveTo = <ParamList extends ParamListBase>(
   const { pathname, params } = createPathname(screen, {
     ...to.params,
   });
+
   return (
     pathname +
     (Object.keys(params).length ? `?${createQueryParams(params)}` : '')
@@ -276,6 +284,7 @@ type LinkToOptions = {
   type: 'NAVIGATE' | 'PUSH' | 'REPLACE';
   navigation: NavigationContainerRef<ParamListBase>;
   linkingOptions: LinkingOptions<ParamListBase>;
+  merge?: boolean;
 };
 
 const linkTo = (to: string, options: LinkToOptions) => {
@@ -304,7 +313,7 @@ const linkTo = (to: string, options: LinkToOptions) => {
         return navigation.dispatch(getNavigateReplaceAction(state, rootState));
       default:
         return navigation.dispatch(
-          getNavigatePushAction(state, rootState, type)
+          getNavigatePushAction(state, rootState, type, options.merge)
         );
     }
   } else {
@@ -340,15 +349,18 @@ function rewriteNavigationStateToParams(
 function getNavigatePushAction(
   state: ResultState,
   rootState: NavigationState,
-  type: 'NAVIGATE' | 'PUSH' = 'PUSH'
+  type: 'NAVIGATE' | 'PUSH' = 'PUSH',
+  merge?: boolean
 ) {
   const { screen, params } = rewriteNavigationStateToParams(state);
+
   return {
     type: type,
     target: rootState.key,
     payload: {
       name: screen,
       params,
+      merge,
     },
   };
 }
