@@ -1,0 +1,34 @@
+---
+sidebar_position: 4
+---
+
+# Screen tracking for analytics
+
+```tsx title="App.tsx"
+import React, {useRef} from 'react';
+import RouterRoot from 'react-native-auto-route';
+
+const App = () => {
+  const pathnameRef = useRef<string>();
+
+  return (
+    <RouterRoot
+      onStateChange={async state => {
+        const previousPathname = pathnameRef.current;
+        const currentPathname = state?.pathname;
+        if (previousPathname !== currentPathname) {
+          // Save the current path name for later comparison
+          pathnameRef.current = state?.pathname;
+
+          // Replace the line below to add the tracker from a mobile analytics SDK
+          // await trackScreenView(currentPathname);
+        }
+      }}
+      linking={{prefixes: ['autoroute://']}}
+    />
+  );
+};
+
+export default App;
+
+```

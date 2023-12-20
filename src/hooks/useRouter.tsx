@@ -37,7 +37,7 @@ export type Router<
   ScreenOptions extends {} = {}
 > = {
   /**
-   * Navigate to a route in the navigation tree.
+   * Navigate to another screen. If the route name is exist, navigate to that.
    */
   navigate: <T extends ParamList = ParamList>(to: To<T>) => void;
 
@@ -49,7 +49,7 @@ export type Router<
   push: <T extends ParamList = ParamList>(to: To<T>) => void;
 
   /**
-   * Replace a route in the navigation tree
+   * Replace with another screen
    */
   replace: <T extends ParamList = ParamList>(to: To<T>) => void;
   /**

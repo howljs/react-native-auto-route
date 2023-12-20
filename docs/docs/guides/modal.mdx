@@ -1,0 +1,116 @@
+---
+sidebar_position: 2
+---
+import ReactPlayer from 'react-player'
+
+# Opening a modal
+
+A modal displays content that temporarily blocks interactions with the main view.
+
+A modal is like a popup — it usually has a different transition animation, and is intended to focus on one particular interaction or piece of content.
+
+<ReactPlayer playing controls url='/react-native-auto-route/img/modal.mp4' />
+
+## Example
+
+```
+📂 app
+┃ ┣ 📜 _layout.tsx
+┃ ┣ 📜 index.tsx
+┃ ┣ 📜 picker-3.tsx
+┃ ┣ 📂 (modal)
+┃ ┃ ┗ 📜 _layout.tsx
+┃ ┃ ┗ 📜 picker.tsx
+┃ ┃ ┗ 📜 picker-2.tsx
+```
+
+```tsx title="app/_layout.tsx"
+import React from 'react';
+import {Stack} from 'react-native-auto-route';
+
+const RootLayout = () => {
+  return (
+    <Stack initialRouteName="index">
+      <Stack.Screen name="index" />
+      <Stack.Screen
+        name="(modal)"
+        // Set presentation to 'modal' for modal group
+        // highlight-next-line
+        options={{headerShown: false, presentation: 'modal'}}
+      />
+      <Stack.Screen name="picker-3" options={{
+          // Set presentation to 'modal' for screen
+          // highlight-next-line
+          presentation: 'modal'
+        }} 
+      />
+    </Stack>
+  );
+};
+
+export default RootLayout;
+```
+
+
+```tsx title="app/(modal)/_layout.tsx"
+import React from 'react';
+import {Text, TouchableOpacity} from 'react-native';
+import {Stack, useRouter} from 'react-native-auto-route';
+
+const ModalLayout = () => {
+  const router = useRouter();
+  const _renderClose = () => (
+    <TouchableOpacity onPress={router.back}>
+      <Text>Close</Text>
+    </TouchableOpacity>
+  );
+
+  return (
+    <Stack
+      screenOptions={{
+        // Show close button in header for all screens in modal group
+        headerRight: _renderClose,
+      }}
+    />
+  );
+};
+
+export default ModalLayout;
+```
+
+```tsx title="app/index.tsx"
+import React from 'react';
+import {Button, Text, View} from 'react-native';
+import {useRouter} from 'react-native-auto-route';
+
+const Home = () => {
+  const router = useRouter();
+
+  return (
+    <View>
+      <Text>Home</Text>
+      <Button
+        title="Picker 1"
+        onPress={() => {
+          router.push('picker');
+        }}
+      />
+      <Button
+        title="Picker 2"
+        onPress={() => {
+          router.push('picker-2');
+        }}
+      />
+      <Button
+        title="Picker 3"
+        onPress={() => {
+          router.push('picker-3');
+        }}
+      />
+    </View>
+  );
+};
+
+export default Home;
+
+```

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 ---
+import ReactPlayer from 'react-player'
 
 # Create screens
 
@@ -13,6 +14,8 @@ When a file is created in the screens directory (default is: `app`), it will be 
 - `app/(group)/tab1.tsx` matches `/tab1`
 
 > Supported extensions: `.tsx`, `.ts`, `.jsx`, `.js`
+
+<ReactPlayer playing controls url='/react-native-auto-route/img/create-screens.mp4' />
 
 ## Example
 

@@ -1,0 +1,36 @@
+---
+sidebar_position: 3
+---
+
+# Deep linking
+
+> References: [Deep linking](https://reactnavigation.org/docs/deep-linking/) & [Configuring links](https://reactnavigation.org/docs/configuring-links#prefixes)
+
+## Setup
+
+Follow the [Set up with bare React Native projects](https://reactnavigation.org/docs/deep-linking#set-up-with-bare-react-native-projects) to setup deep linking.
+
+## Configuring links
+
+```tsx title="App.tsx"
+import React from 'react';
+import RouterRoot from 'react-native-auto-route';
+
+const App = () => {
+  return <RouterRoot linking={{prefixes: ['mychat://']}} />;
+};
+
+export default App;
+```
+
+## Testing deep links
+
+```
+npx uri-scheme open [your deep link] --[ios|android]
+```
+
+For example:
+
+```sh
+npx uri-scheme open "mychat://chat/jane" --ios
+```

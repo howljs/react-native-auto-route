@@ -2,7 +2,13 @@
 
 React Native Auto Route is a file-based router for React Native CLI. Built on top of [Expo Router](https://docs.expo.dev/router/introduction/) and [React Navigation](https://reactnavigation.org/)
 
+[![npm version](https://badge.fury.io/js/react-native-auto-route.svg)](https://badge.fury.io/js/react-native-auto-route)
+[![npm](https://img.shields.io/npm/dt/react-native-auto-route.svg)](https://www.npmjs.com/package/react-native-auto-route)
+![GitHub license](https://img.shields.io/github/license/howljs/react-native-auto-route.svg)
+
 > Check out our [documentation page](https://howljs.github.io/react-native-auto-route/docs/getting-started) for more information
+
+![intro](./__assets__/intro.gif)
 
 ## Installation
 
