@@ -2,6 +2,8 @@
 
 React Native Auto Route is a file-based router for React Native CLI. Built on top of [Expo Router](https://docs.expo.dev/router/introduction/) and [React Navigation](https://reactnavigation.org/)
 
+> Check out our [documentation page](https://howljs.github.io/react-native-auto-route/docs/getting-started) for more information
+
 ## Installation
 
 ```sh
@@ -106,32 +108,63 @@ import RouterRoot from 'react-native-auto-route';
 <RouterRoot />
 ```
 
-## Documentation
+## Basic usage
 
-> In the process of updating, you can refer to the instructions from [Expo Router](https://docs.expo.dev/router/create-pages/)
+### Create screens
 
-### Create pages
+When a file is created in the screens directory (default is: `app`), it will be automatically added to the routes. For example, the following files will create the following routes:
 
-When a file is created in the app directory, it automatically becomes a route in the app. For example, the following files will create the following routes:
+- `app/index.tsx` matches `/`
+- `app/home.tsx` matches `/home`
+- `app/settings/index.tsx` matches `/settings`
+- `app/[user].tsx` matches dynamic paths like `/userId1` or `/userId2`
+- `app/(group)/tab1.tsx` matches `/tab1`
 
-- app/index.tsx matches /
-- app/home.tsx matches /home
-- app/settings/index.tsx matches /settings
-- app/[user].tsx matches dynamic paths like /userId1 or /userId2
+> Supported extensions: `.tsx`, `.ts`, `.jsx`, `.js`
 
-For example, create the app directory in root project and then create a file index.tsx inside it. Then, add the following snippet:
+### Example
 
-```tsx
+```tsx title="app/index.tsx"
 import React from 'react';
-import { Text } from 'react-native';
+import {Text, View} from 'react-native';
 
-const Home = () => {
-  return <Text>Home</Text>;
-};
-
-export default Home;
+export default function Home() {
+  return (
+    <View>
+      <Text>Home</Text>
+    </View>
+  );
+}
 ```
 
+### Dynamic routes
+
+You can create dynamic routes by using square brackets in the file name. For example, the following files will create the following routes:
+
+- `app/[user].tsx` matches dynamic paths like `/userId1`
+- `app/[user]/[post].tsx` matches dynamic paths like `/userId1/postId1`
+- `app/detail/[postId].tsx` matches dynamic paths like `/detail/postId1`
+- `app/detail/[...postId].tsx` matches dynamic paths like `/detail/postId1/edit`
+
+Routes with higher specificity will be matched before a dynamic route. For example, `/detail/post` will match `detail/post.tsx` before `detail/[id].tsx`.
+
+Multiple slugs can be matched in a single route by using the rest syntax (...). For example, `app/detail/[...postId].tsx` matches `/detail/postId1/edit`.
+
+You can get params from the route by using the `useParams` hook.
+
+```tsx title="app/[user]/[post].tsx"
+import React from 'react';
+import {Text, View} from 'react-native';
+
+export default function UserPost() {
+  const params = useParams();
+  return (
+    <View>
+      <Text>Detail: {params.user} - {params.post}</Text>
+    </View>
+  );
+}
+```
 
 ## Contributing
 

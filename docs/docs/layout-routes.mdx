@@ -1,0 +1,121 @@
+---
+sidebar_position: 4
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Layout routes
+
+## Create a layout route
+
+To create a layout route for a directory, create a file named `_layout.tsx` or `_layout.js` in the directory, and export a React component as default.
+
+Example:
+
+```tsx title="app/_layout.tsx"
+import React from 'react';
+import { Stack } from 'react-native-auto-route';
+
+const AppLayout = () => {
+  return <Stack initialRouteName="home" />
+};
+
+export default AppLayout;
+```
+
+Supports adding a single layout route for a given directory. If you want to use multiple layout routes, add multiple directories:
+
+```
+📂 app
+┃ ┣ 📜 _layout.tsx
+┃ ┣ 📜 sign-in.tsx
+┃ ┣ 📂 (tabs)
+┃ ┃ ┗ 📜 _layout.tsx
+┃ ┃ ┗ 📜 home.tsx
+┃ ┃ ┗ 📜 profile.tsx
+```
+
+<Tabs>
+  <TabItem value='_layout' label='_layout' default>
+  
+    ```tsx title="app/_layout.tsx"
+    import React from 'react';
+    import { Stack } from 'react-native-auto-route';
+
+    export default function Layout() {
+      return <Stack initialRouteName="(tabs)" />;
+    }
+    ```
+  </TabItem>
+  <TabItem value='(tabs)/_layout' label='(tabs)/_layout'>
+
+    ```tsx title="app/(tabs)/_layout.tsx"
+    import React from 'react';
+    import { Tabs } from 'react-native-auto-route';
+
+    export default function Layout() {
+      return <Tabs />;
+    }
+    ```
+  </TabItem>
+  <TabItem value='(tabs)/home' label='(tabs)/home'>
+
+    ```tsx title="app/(tabs)/home.tsx"
+    import { View, Text } from 'react-native';
+    import React from 'react';
+
+    const Home = () => {
+      return (
+        <View>
+          <Text>Home</Text>
+        </View>
+      );
+    };
+
+    export default Home;
+    ```
+  </TabItem>
+  <TabItem value='(tabs)/profile' label='(tabs)/profile'>
+
+    ```tsx title="app/(tabs)/profile.tsx"
+    import { View, Text } from 'react-native';
+    import React from 'react';
+
+    const Profile = () => {
+      return (
+        <View>
+          <Text>Profile</Text>
+        </View>
+      );
+    };
+
+    export default Profile;
+    ```
+  </TabItem>
+  <TabItem value='sign-in' label='sign-in'>
+
+    ```tsx title="app/sign-in.tsx"
+    import { View, Text } from 'react-native';
+    import React from 'react';
+
+    const SignIn = () => {
+      return (
+        <View>
+          <Text>SignIn</Text>
+        </View>
+      );
+    };
+
+    export default SignIn;
+
+    ```
+  </TabItem>
+</Tabs>
+
+With above directory structure:
+
+- `/sign-in` will use `app/_layout.tsx`
+- `/tabs/home` and `/tabs/profile` will use `app/(tabs)/_layout.tsx`
+- `(tabs)`: using the group syntax (), prevent a segment from showing in the URL path. In this case, the URL path will be `/home` and `/profile`.
+
+If `app/_layout.tsx` is not created, the default layout (Stack) will be used.
