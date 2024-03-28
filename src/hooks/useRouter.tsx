@@ -1,11 +1,9 @@
 import {
   LinkingContext,
-  NavigationContainerRefContext,
   NavigationContext,
   StackActions,
   type LinkingOptions,
   type NavigationAction,
-  type NavigationContainerRef,
   type NavigationState,
   type ParamListBase,
 } from '@react-navigation/native';
@@ -37,7 +35,7 @@ export type Router<
   ScreenOptions extends {} = {}
 > = {
   /**
-   * Navigate to another screen. If the route name is exist, navigate to that.
+   * Navigate to a route in the navigation tree.
    */
   navigate: <T extends ParamList = ParamList>(to: To<T>) => void;
 
@@ -49,7 +47,7 @@ export type Router<
   push: <T extends ParamList = ParamList>(to: To<T>) => void;
 
   /**
-   * Replace with another screen
+   * Replace a route in the navigation tree
    */
   replace: <T extends ParamList = ParamList>(to: To<T>) => void;
   /**
@@ -107,8 +105,7 @@ const useRouter = <
   RouteName extends Keyof<ParamList> = Keyof<ParamList>,
   ScreenOptions extends {} = {}
 >(): Router<ParamList, RouteName, ScreenOptions> => {
-  const navigationContainer = useContext(NavigationContainerRefContext);
-  const navigation = useContext(NavigationContext);
+  const navigationContainer = useContext(NavigationContext);
   const linking = useContext(LinkingContext);
 
   const navigate = <T extends ParamList = ParamList>(to: To<T>) => {
@@ -153,24 +150,24 @@ const useRouter = <
   };
 
   const canGoBack = () => {
-    if (!navigation) {
+    if (!navigationContainer) {
       throw Error("Couldn't find a navigation object");
     }
-    return navigation.canGoBack() ?? false;
+    return navigationContainer.canGoBack() ?? false;
   };
 
   const isFocused = () => {
-    if (!navigation) {
+    if (!navigationContainer) {
       throw Error("Couldn't find a navigation object");
     }
-    return navigation.isFocused() ?? false;
+    return navigationContainer.isFocused() ?? false;
   };
 
   const back = () => {
-    if (!navigation) {
+    if (!navigationContainer) {
       throw Error("Couldn't find a navigation object");
     }
-    navigation.goBack();
+    navigationContainer.goBack();
   };
 
   const setParams = (
@@ -178,31 +175,31 @@ const useRouter = <
       ? undefined
       : Partial<ParamList[Keyof<ParamList>]>
   ) => {
-    if (!navigation) {
+    if (!navigationContainer) {
       throw Error("Couldn't find a navigation object");
     }
-    navigation.setParams(params);
+    navigationContainer.setParams(params);
   };
 
   const setOptions = (options: ScreenOptions) => {
-    if (!navigation) {
+    if (!navigationContainer) {
       throw Error("Couldn't find a navigation object");
     }
-    navigation.setOptions(options);
+    navigationContainer.setOptions(options);
   };
 
   const pop = (count: number) => {
-    if (!navigation) {
+    if (!navigationContainer) {
       throw Error("Couldn't find a navigation object");
     }
-    navigation.dispatch(StackActions.pop(count));
+    navigationContainer.dispatch(StackActions.pop(count));
   };
 
   const popToTop = () => {
-    if (!navigation) {
+    if (!navigationContainer) {
       throw Error("Couldn't find a navigation object");
     }
-    navigation.dispatch(StackActions.popToTop());
+    navigationContainer.dispatch(StackActions.popToTop());
   };
 
   return {
@@ -282,7 +279,7 @@ const createQueryParams = (params: Record<string, any>): string => {
 
 type LinkToOptions = {
   type: 'NAVIGATE' | 'PUSH' | 'REPLACE';
-  navigation: NavigationContainerRef<ParamListBase>;
+  navigation: any;
   linkingOptions: LinkingOptions<ParamListBase>;
   merge?: boolean;
 };
@@ -307,7 +304,7 @@ const linkTo = (to: string, options: LinkToOptions) => {
     : getStateFromPath(to, linkingOptions.config);
 
   if (state) {
-    const rootState = navigation.getRootState();
+    const rootState = navigation.getState();
     switch (type) {
       case 'REPLACE':
         return navigation.dispatch(getNavigateReplaceAction(state, rootState));
