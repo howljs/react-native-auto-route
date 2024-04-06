@@ -1,6 +1,6 @@
 {
   "name": "react-native-auto-route",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "file-based router for React Native CLI",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
