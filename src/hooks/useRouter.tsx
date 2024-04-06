@@ -1,9 +1,12 @@
 import {
   LinkingContext,
+  NavigationContainerRefContext,
   NavigationContext,
   StackActions,
   type LinkingOptions,
   type NavigationAction,
+  type NavigationContainerRef,
+  type NavigationProp,
   type NavigationState,
   type ParamListBase,
 } from '@react-navigation/native';
@@ -105,6 +108,7 @@ const useRouter = <
   RouteName extends Keyof<ParamList> = Keyof<ParamList>,
   ScreenOptions extends {} = {}
 >(): Router<ParamList, RouteName, ScreenOptions> => {
+  const rootNavigation = useContext(NavigationContainerRefContext);
   const navigationContainer = useContext(NavigationContext);
   const linking = useContext(LinkingContext);
 
@@ -117,7 +121,9 @@ const useRouter = <
       merge = to.merge ?? false;
     }
     const path = resolveTo(to);
+
     linkTo(path, {
+      rootNavigation,
       navigation: navigationContainer,
       linkingOptions: linking.options,
       type: 'NAVIGATE',
@@ -130,7 +136,9 @@ const useRouter = <
       throw Error("Couldn't find a navigation object");
     }
     const path = resolveTo(to);
+
     linkTo(path, {
+      rootNavigation,
       navigation: navigationContainer,
       linkingOptions: linking.options,
       type: 'PUSH',
@@ -143,6 +151,7 @@ const useRouter = <
     }
     const path = resolveTo(to);
     linkTo(path, {
+      rootNavigation,
       navigation: navigationContainer,
       linkingOptions: linking.options,
       type: 'REPLACE',
@@ -279,13 +288,14 @@ const createQueryParams = (params: Record<string, any>): string => {
 
 type LinkToOptions = {
   type: 'NAVIGATE' | 'PUSH' | 'REPLACE';
-  navigation: any;
+  rootNavigation?: NavigationContainerRef<ParamListBase>;
+  navigation: NavigationProp<ParamListBase>;
   linkingOptions: LinkingOptions<ParamListBase>;
   merge?: boolean;
 };
 
 const linkTo = (to: string, options: LinkToOptions) => {
-  const { navigation, type, linkingOptions } = options;
+  const { rootNavigation, navigation, type, linkingOptions } = options;
   if (to === '..' || to === '../') {
     options.navigation.goBack();
     return;
@@ -304,7 +314,7 @@ const linkTo = (to: string, options: LinkToOptions) => {
     : getStateFromPath(to, linkingOptions.config);
 
   if (state) {
-    const rootState = navigation.getState();
+    const rootState = rootNavigation?.getRootState() ?? navigation.getState();
     switch (type) {
       case 'REPLACE':
         return navigation.dispatch(getNavigateReplaceAction(state, rootState));
@@ -350,6 +360,7 @@ function getNavigatePushAction(
   merge?: boolean
 ) {
   const { screen, params } = rewriteNavigationStateToParams(state);
+  console.log(params);
 
   return {
     type: type,
