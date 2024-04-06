@@ -360,7 +360,6 @@ function getNavigatePushAction(
   merge?: boolean
 ) {
   const { screen, params } = rewriteNavigationStateToParams(state);
-  console.log(params);
 
   return {
     type: type,
